@@ -1,5 +1,13 @@
 # Trip Planner
 
+Open-source trip planner.
+
+Based on the country and city chosen, it will give you a full program to follow to make the most out of your traveling.
+
+Try it live -> https://trip-planner-eta-jet.vercel.app/
+
+PS: Limit to 10 API calls per p/month on the free plan.
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).

@@ -22,7 +22,7 @@
                 </div>
                 <div class="github">
                     <a
-                        href="https://github.com/j-b-marques/Articles-Summarizer"
+                        href="https://github.com/j-b-marques/TripPlanner"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
