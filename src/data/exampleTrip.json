@@ -1,0 +1,77 @@
+{
+    "plan": [
+        {
+            "day": 1,
+            "activities": [
+                {
+                    "time": "9:00 AM",
+                    "description": "Arrive in Luanda and check-in to hotel"
+                },
+                {
+                    "time": "10:00 AM",
+                    "description": "Visit the Fortaleza de São Miguel de Luanda"
+                },
+                {
+                    "time": "1:00 PM",
+                    "description": "Lunch at the Tamariz Restaurant"
+                },
+                {
+                    "time": "3:00 PM",
+                    "description": "Explore the Marginal Promenade"
+                },
+                {
+                    "time": "6:00 PM",
+                    "description": "Dinner at the Lookal Mar"
+                }
+            ]
+        },
+        {
+            "day": 2,
+            "activities": [
+                {
+                    "time": "9:00 AM",
+                    "description": "Visit the National Museum of Slavery"
+                },
+                {
+                    "time": "12:00 PM",
+                    "description": "Lunch at the Miami Beach Restaurant"
+                },
+                {
+                    "time": "2:00 PM",
+                    "description": "Explore the Ilha do Mussulo Beach"
+                },
+                {
+                    "time": "6:00 PM",
+                    "description": "Sunset boat cruise on the Kwanza River"
+                }
+            ]
+        },
+        {
+            "day": 3,
+            "activities": [
+                {
+                    "time": "9:00 AM",
+                    "description": "Visit the King's Palace of M'banza-Kongo"
+                },
+                {
+                    "time": "12:00 PM",
+                    "description": "Lunch at the Chill Out Restaurant"
+                },
+                {
+                    "time": "2:00 PM",
+                    "description": "Shop at the Benfica Market"
+                },
+                {
+                    "time": "4:00 PM",
+                    "description": "Visit the Igreja de Nossa Senhora de Nazaré"
+                },
+                {
+                    "time": "7:00 PM",
+                    "description": "Dinner at the Epic Sana Hotel restaurant"
+                }
+            ]
+        }
+    ],
+    "key": "3-luanda",
+    "_id": "645e294cca159c48b92e06b4"
+}

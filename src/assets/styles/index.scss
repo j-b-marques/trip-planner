@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@import 'base/base';
+@import 'base/normalize';
+@import 'colors/colors';
+
+#app {
+    min-height: 100vh;
+    width: 100%;
+    font-family: 'Kanit', sans-serif;
+    overflow: auto;
+    background-image: $bkgGradient;
+}
