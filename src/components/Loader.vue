@@ -10,7 +10,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .loader {
     font-size: 10px;
     width: 1em;
