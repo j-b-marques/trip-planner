@@ -260,7 +260,7 @@ async function search() {
         margin: 0 auto;
 
         &.select-options {
-            padding: 100px 30px 80px 30px;
+            padding: 60px 30px 80px 30px;
         }
         &.trip-planner {
             padding: 0px 30px 0px 30px;
@@ -277,7 +277,7 @@ async function search() {
                 span {
                     display: inline-block;
                     margin-bottom: 5px;
-                    font-size: 18px;
+                    font-size: 22px;
                 }
                 input[type='text'] {
                     color: black;
