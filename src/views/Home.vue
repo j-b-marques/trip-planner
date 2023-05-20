@@ -48,6 +48,7 @@
                             :options="countriesList"
                             :close-on-select="true"
                             :key="keyCountry"
+                            :searchable="true"
                         ></vue-select>
                     </div>
                 </div>
@@ -59,6 +60,7 @@
                             :options="citysList"
                             :close-on-select="true"
                             :key="keyCity"
+                            :searchable="true"
                         ></vue-select>
                     </div>
                 </div>
@@ -113,7 +115,15 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed, toRaw, watch, reactive } from 'vue'
+import {
+    onMounted,
+    ref,
+    computed,
+    toRaw,
+    watch,
+    reactive,
+    watchEffect
+} from 'vue'
 import Loader from '../components/Loader.vue'
 import { useTripsStore } from '../stores/trips'
 import { options } from '../services/tripsPlannerApi'
@@ -162,6 +172,13 @@ watch(selectedCountry, (val, oldVal) => {
             .map((x) => x.city_name)
         keyCity.value++
     }
+})
+
+watch(selectedCountry, (val) => {
+    if (val) keyCountry.value++
+})
+watch(selectedCity, (val) => {
+    if (val) keyCity.value++
 })
 
 //Functions
