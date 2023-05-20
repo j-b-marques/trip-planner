@@ -382,8 +382,11 @@ async function search() {
 :deep(.vue-select) {
     min-width: 220px;
 }
+:deep(.vue-select .vue-select-header) {
+    background-color: $colorFont;
+}
 :deep(.vue-select .vue-select-header .vue-input) {
-    color: $colorFont;
+    color: #18181b;
 
     input {
         font-weight: 600;
