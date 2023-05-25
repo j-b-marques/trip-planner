@@ -150,10 +150,6 @@ let keyCity = ref(0)
 //Hooks
 onMounted(() => {
     setCountriesList(countriesData)
-
-    tripData = exampleTrip.plan
-    selectedCity.value = 'Luanda'
-    selectedCountry.value = 'Angola'
 })
 
 // Computed
