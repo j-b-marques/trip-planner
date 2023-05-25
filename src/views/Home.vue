@@ -74,7 +74,9 @@
                         />
                     </div>
                 </div>
-                <button class="setTrip" @click="search">Set Trip</button>
+                <button v-if="haveData" class="setTrip" @click="search">
+                    Set Trip
+                </button>
             </div>
             <div v-if="tripData.length > 0">
                 <div class="selection-holder">
