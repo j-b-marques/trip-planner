@@ -74,12 +74,16 @@
                         />
                     </div>
                 </div>
-                <button v-if="haveData" @click="search">Set Trip</button>
+                <button class="setTrip" @click="search">Set Trip</button>
             </div>
             <div v-if="tripData.length > 0">
-                <h4 class="title-selected">
-                    {{ selectedCity }}, &nbsp;{{ selectedCountry }}
-                </h4>
+                <div class="selection-holder">
+                    <h4>{{ selectedCity }}, &nbsp;{{ selectedCountry }}</h4>
+                    <button @click="copyData" class="copyInfo">
+                        Download Plan to Pdf
+                    </button>
+                </div>
+
                 <div class="item-wrapper trip-planner">
                     <div class="item-holder" v-for="x in tripData" :key="x.day">
                         <div class="item">
@@ -115,20 +119,15 @@
 </template>
 
 <script setup>
-import {
-    onMounted,
-    ref,
-    computed,
-    toRaw,
-    watch,
-    reactive,
-    watchEffect
-} from 'vue'
+import { onMounted, ref, computed, toRaw, watch, reactive } from 'vue'
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
 import Loader from '../components/Loader.vue'
 import { useTripsStore } from '../stores/trips'
 import { options } from '../services/tripsPlannerApi'
 
 import countriesJson from '../data/countries.json'
+import exampleTrip from '../data/exampleTrip.json'
 
 //Data
 const baseUrl = options.url
@@ -151,6 +150,10 @@ let keyCity = ref(0)
 //Hooks
 onMounted(() => {
     setCountriesList(countriesData)
+
+    tripData = exampleTrip.plan
+    selectedCity.value = 'Luanda'
+    selectedCountry.value = 'Angola'
 })
 
 // Computed
@@ -221,6 +224,58 @@ async function search() {
 
     loading.value = false
 }
+
+function copyData() {
+    let stringArray = []
+
+    tripData.map((x, indx) => {
+        let arr = []
+        arr.push(`Day:${x.day}`)
+        x.activities.map((j) => {
+            arr.push(`Time: ${j.time} \n Description: ${j.description}`)
+        })
+
+        stringArray.push(arr)
+    })
+
+    stringArray.map((x) => x.flatMap((j) => j))
+
+    let concatString = ''
+    for (let x = 0; x < stringArray.length; x++) {
+        for (let j = 0; j < stringArray[x].length; j++) {
+            concatString += stringArray[x][j] + ' ' + '\n'
+        }
+
+        if (stringArray[x][stringArray.length - 1]) {
+            concatString += '\n'
+        }
+    }
+
+    exportToPdf(concatString)
+}
+
+async function exportToPdf(data) {
+    const doc = new jsPDF()
+
+    const contentElement = document.createElement('div')
+    contentElement.style.width = '100%'
+    contentElement.style.padding = '20px'
+
+    const paragraph = document.createElement('p')
+    paragraph.innerText = data
+    contentElement.appendChild(paragraph)
+
+    document.body.appendChild(contentElement)
+
+    setTimeout(async () => {
+        const canvas = await html2canvas(contentElement)
+        const imgData = canvas.toDataURL('image/png')
+        doc.addImage(imgData, 'PNG', 10, 10, 190, 0)
+        doc.save(`TripPlanner_${selectedCity.value}_${selectedCountry.value}`)
+
+        document.body.removeChild(contentElement)
+    }, 0)
+}
 </script>
 
 <style scoped lang="scss">
@@ -262,14 +317,34 @@ async function search() {
             font-size: 26px;
         }
     }
-    h4 {
-        text-align: center;
-        display: inline-block;
-        width: 100%;
+
+    .selection-holder {
+        display: flex;
         margin-bottom: 30px;
-        font-size: 24px;
-        font-weight: 500;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        h4 {
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .copyInfo {
+            background-color: #db1d70;
+            border-radius: 0.375rem;
+            border: none;
+            padding: 5px 8px;
+            font-size: 14px;
+            line-height: 1.75rem;
+            transition: all 0.1s ease-in-out;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
     }
+
     .item-wrapper {
         display: flex;
         flex-direction: column;
@@ -362,7 +437,7 @@ async function search() {
         }
     }
 
-    button {
+    button.setTrip {
         width: fit-content;
         font-size: 16px;
         padding: 8px 25px;
@@ -371,14 +446,14 @@ async function search() {
         text-align: center;
         border: none;
         background-size: 300% 100%;
-        border-radius: 50px;
+        border-radius: 0.375rem;
         moz-transition: all 0.4s ease-in-out;
         -o-transition: all 0.4s ease-in-out;
         -webkit-transition: all 0.4s ease-in-out;
         transition: all 0.4s ease-in-out;
     }
 
-    button:hover {
+    button.setTrip:hover {
         background-position: 100% 0;
         moz-transition: all 0.4s ease-in-out;
         -o-transition: all 0.4s ease-in-out;
@@ -386,11 +461,11 @@ async function search() {
         transition: all 0.4s ease-in-out;
     }
 
-    button:focus {
+    button.setTrip:focus {
         outline: none;
     }
 
-    button {
+    button.setTrip {
         background-image: linear-gradient(to bottom right, #5761b2, #1fc5a8);
         box-shadow: 0 4px 15px 0 rgba(184, 19, 101, 0.75);
     }
