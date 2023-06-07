@@ -82,7 +82,18 @@
                 <div class="selection-holder">
                     <h4>{{ selectedCity }}, &nbsp;{{ selectedCountry }}</h4>
                     <button @click="copyData" class="copyInfo">
-                        Download Plan to Pdf
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                        >
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                            <path
+                                d="M16 2L21 7V21.0082C21 21.556 20.5551 22 20.0066 22H3.9934C3.44476 22 3 21.5447 3 21.0082V2.9918C3 2.44405 3.44495 2 3.9934 2H16ZM13 12V8H11V12H8L12 16L16 12H13Z"
+                                fill="rgba(238,238,255,1)"
+                            ></path>
+                        </svg>
                     </button>
                 </div>
 
@@ -224,6 +235,7 @@ async function search() {
 }
 
 function copyData() {
+    loading.value = true
     let stringArray = []
 
     tripData.map((x, indx) => {
@@ -236,25 +248,18 @@ function copyData() {
         stringArray.push(arr)
     })
 
-    stringArray.map((x) => x.flatMap((j) => j))
-
     let concatString = ''
     for (let x = 0; x < stringArray.length; x++) {
         for (let j = 0; j < stringArray[x].length; j++) {
             concatString += stringArray[x][j] + ' ' + '\n'
         }
-
-        if (stringArray[x][stringArray.length - 1]) {
-            concatString += '\n'
-        }
+        concatString += '\n'
     }
 
-    exportToPdf(concatString)
+    exportToPdf(concatString, stringArray.length)
 }
 
-async function exportToPdf(data) {
-    const doc = new jsPDF()
-
+async function exportToPdf(data, length) {
     const contentElement = document.createElement('div')
     contentElement.style.width = '100%'
     contentElement.style.padding = '20px'
@@ -262,16 +267,30 @@ async function exportToPdf(data) {
     const paragraph = document.createElement('p')
     paragraph.innerText = data
     contentElement.appendChild(paragraph)
-
     document.body.appendChild(contentElement)
 
     setTimeout(async () => {
+        const mobile = window.innerWidth < 1024
+
+        const doc = new jsPDF('p', 'mm', [
+            400,
+            mobile ? contentElement.offsetHeight : length * 100
+        ])
         const canvas = await html2canvas(contentElement)
-        const imgData = canvas.toDataURL('image/png')
-        doc.addImage(imgData, 'PNG', 10, 10, 190, 0)
+        const imgData = canvas.toDataURL('image/jpeg')
+        doc.addImage(
+            imgData,
+            'JPEG',
+            0,
+            0,
+            400,
+            mobile ? contentElement.offsetHeight : length * 100
+        )
         doc.save(`TripPlanner_${selectedCity.value}_${selectedCountry.value}`)
 
         document.body.removeChild(contentElement)
+
+        loading.value = false
     }, 0)
 }
 </script>
@@ -336,6 +355,9 @@ async function exportToPdf(data) {
             font-size: 14px;
             line-height: 1.75rem;
             transition: all 0.1s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             &:hover {
                 opacity: 0.8;
